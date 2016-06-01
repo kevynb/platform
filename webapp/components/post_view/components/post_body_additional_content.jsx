@@ -22,12 +22,12 @@ export default class PostBodyAdditionalContent extends React.Component {
         this.toggleEmbedVisibility = this.toggleEmbedVisibility.bind(this);
 
         this.state = {
-            embedVisible: !props.previewCollapsed
+            embedVisible: props.previewCollapsed.startsWith('false')
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({embedVisible: !nextProps.previewCollapsed});
+        this.setState({embedVisible: nextProps.previewCollapsed.startsWith('false')});
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -161,5 +161,5 @@ export default class PostBodyAdditionalContent extends React.Component {
 PostBodyAdditionalContent.propTypes = {
     post: React.PropTypes.object.isRequired,
     message: React.PropTypes.element.isRequired,
-    previewCollapsed: React.PropTypes.object.bool
+    previewCollapsed: React.PropTypes.string
 };
