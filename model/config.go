@@ -213,20 +213,20 @@ type SampleAppSettings struct {
 }
 
 type Config struct {
-	ServiceSettings      ServiceSettings
-	TeamSettings         TeamSettings
-	SqlSettings          SqlSettings
-	LogSettings          LogSettings
-	FileSettings         FileSettings
-	EmailSettings        EmailSettings
-	RateLimitSettings    RateLimitSettings
-	PrivacySettings      PrivacySettings
-	SupportSettings      SupportSettings
-	GitLabSettings       SSOSettings
-	GoogleSettings       SSOSettings
-	LdapSettings         LdapSettings
-	ComplianceSettings   ComplianceSettings
-	SampleAppSettings    SampleAppSettings
+	ServiceSettings    ServiceSettings
+	TeamSettings       TeamSettings
+	SqlSettings        SqlSettings
+	LogSettings        LogSettings
+	FileSettings       FileSettings
+	EmailSettings      EmailSettings
+	RateLimitSettings  RateLimitSettings
+	PrivacySettings    PrivacySettings
+	SupportSettings    SupportSettings
+	GitLabSettings     SSOSettings
+	GoogleSettings     SSOSettings
+	LdapSettings       LdapSettings
+	ComplianceSettings ComplianceSettings
+	SampleAppSettings  SampleAppSettings
 }
 
 func (o *Config) ToJson() string {
