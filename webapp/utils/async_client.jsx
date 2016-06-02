@@ -1382,3 +1382,66 @@ export function getPublicLink(filename, success, error) {
         }
     );
 }
+
+export function listOAuthApps(userId) {
+    if (isCallInProgress('listOAuthApps')) {
+        return;
+    }
+
+    callTracker.listOAuthApps = utils.getTimestamp();
+
+    Client.listOAuthApps(
+        (data) => {
+            callTracker.listOAuthApps = 0;
+
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.RECEIVED_OAUTHAPPS,
+                userId,
+                oauthApps: data
+            });
+        },
+        (err) => {
+            callTracker.listOAuthApps = 0;
+            dispatchError(err, 'listOAuthApps');
+        }
+    );
+}
+
+export function deleteOAuthApp(id, userId) {
+    Client.deleteOAuthApp(
+        id,
+        () => {
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.REMOVED_OAUTHAPP,
+                userId,
+                id
+            });
+        },
+        (err) => {
+            dispatchError(err, 'deleteOAuthApp');
+        }
+    );
+}
+
+export function registerOAuthApp(app, success, error) {
+    Client.registerOAuthApp(
+        app,
+        (data) => {
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.RECEIVED_OAUTHAPP,
+                oauthApp: data
+            });
+
+            if (success) {
+                success();
+            }
+        },
+        (err) => {
+            if (error) {
+                error(err);
+            } else {
+                dispatchError(err, 'registerOAuthApp');
+            }
+        }
+    );
+}

@@ -187,6 +187,7 @@ type OAuthStore interface {
 	UpdateApp(app *model.OAuthApp) StoreChannel
 	GetApp(id string) StoreChannel
 	GetAppByUser(userId string) StoreChannel
+	DeleteApp(id string) StoreChannel
 	SaveAuthData(authData *model.AuthData) StoreChannel
 	GetAuthData(code string) StoreChannel
 	RemoveAuthData(code string) StoreChannel
