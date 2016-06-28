@@ -1,21 +1,18 @@
 // Copyright (c) 2016 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import rtc from 'rtc';
 import PostList from './components/post_list.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import Constants from 'utils/constants.jsx';
+import React from 'react';
 const Preferences = Constants.Preferences;
 const ScrollTypes = Constants.ScrollTypes;
-
-import React from 'react';
 
 export default class PostViewController extends React.Component {
     constructor(props) {
@@ -41,8 +38,20 @@ export default class PostViewController extends React.Component {
             lastViewed = member.last_viewed_at;
         }
 
+        let conference;
+        if (channel.display_name === 'Town Square') {
+            conference = rtc({
+                room: `mattermost-${channel.id}`,
+                signaller: 'http://localhost:3000',
+                channels: {
+                    chat: false
+                }
+            });
+        }
+
         this.state = {
             channel,
+            conference,
             postList: PostStore.getVisiblePosts(channel.id),
             currentUser: UserStore.getCurrentUser(),
             profiles,
@@ -247,6 +256,13 @@ export default class PostViewController extends React.Component {
                     position='absolute'
                     key='loading'
                 />
+            );
+        } else if (this.state.conference) {
+            content = (
+                <div>
+                    <div id='l-video'></div>
+                    <div id='r-video'></div>
+                </div>
             );
         } else {
             content = (
